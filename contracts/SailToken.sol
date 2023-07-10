@@ -13,12 +13,13 @@ contract SailToken is ERC20("SAIL Token", "SAIL"), ERC20Permit("SAIL Token"), ER
     uint256 constant MINIMUM_MINT_WAITING_PERIOD = 2 weeks;
     uint256 constant MAXIMUM_MINT_AMOUNT_BASIS_POINTS = 250;
     uint256 constant ONE_IN_BASIS_POINTS = 1e4;
+    uint256 constant INITIAL_TOKEN_SUPPLY = 1e9;
 
     error InvalidMint();
 
     constructor(address theDAO) {
         _transferOwnership(theDAO);
-        _mint(theDAO, 1e9);
+        _mint(theDAO, INITIAL_TOKEN_SUPPLY);
     }
 
     function setMint(uint256 mintTime, uint256 mintAmount) external onlyOwner {
