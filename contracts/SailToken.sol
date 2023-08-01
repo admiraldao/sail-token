@@ -13,7 +13,7 @@ contract SailToken is ERC20("SAIL Token", "SAIL"), ERC20Permit("SAIL Token"), ER
     uint256 constant MINIMUM_MINT_WAITING_PERIOD = 2 weeks;
     uint256 constant MAXIMUM_MINT_AMOUNT_BASIS_POINTS = 250;
     uint256 constant ONE_IN_BASIS_POINTS = 1e4;
-    uint256 constant INITIAL_TOKEN_SUPPLY = 1e9;
+    uint256 constant INITIAL_TOKEN_SUPPLY = 1e9 ether;
 
     error InvalidMint();
 
