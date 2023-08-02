@@ -5,6 +5,8 @@ const {
 require("@nomicfoundation/hardhat-chai-matchers");
 const { expect } = require("chai");
 
+const ONE = ethers.WeiPerEther;
+
 describe("Sail Token Tests", function () {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
@@ -21,6 +23,8 @@ describe("Sail Token Tests", function () {
 
   describe("Deployment", function () {
 
+    const INITIAL_BALANCE = BigInt("1000000000");
+
     it("Should set the right owner", async function () {
       const { sail, dao } = await loadFixture(deploySailTokenFixture);
 
@@ -30,8 +34,8 @@ describe("Sail Token Tests", function () {
     it("DAO balance should be set properly", async function () {
       const { sail, dao } = await loadFixture(deploySailTokenFixture);
 
-      expect(await sail.balanceOf(dao.address)).to.equal(1_000_000_000);
-      expect(await sail.totalSupply()).to.equal(1_000_000_000);
+      expect(await sail.balanceOf(dao.address)).to.equal(INITIAL_BALANCE*ONE);
+      expect(await sail.totalSupply()).to.equal(INITIAL_BALANCE*ONE);
     });
 
   });
@@ -57,7 +61,7 @@ describe("Sail Token Tests", function () {
       it("Should revert if minting too much", async function () {
         const { sail, dao } = await loadFixture(deploySailTokenFixture);
 
-        await expect(sail.connect(dao).setMint(currentTimestamp+fifteenDays, 100_000_000)).to.be.revertedWithCustomError(
+        await expect(sail.connect(dao).setMint(currentTimestamp+fifteenDays, BigInt(100_000_000)*ONE)).to.be.revertedWithCustomError(
           sail,
           "InvalidMint"
         );
@@ -66,7 +70,7 @@ describe("Sail Token Tests", function () {
       it("Should revert if minting too soon", async function () {
         const { sail, dao } = await loadFixture(deploySailTokenFixture);
 
-        await expect(sail.connect(dao).setMint(currentTimestamp, 100)).to.be.revertedWithCustomError(
+        await expect(sail.connect(dao).setMint(currentTimestamp, BigInt(100)*ONE)).to.be.revertedWithCustomError(
           sail,
           "InvalidMint"
         );
@@ -76,10 +80,10 @@ describe("Sail Token Tests", function () {
         const { sail, dao } = await loadFixture(deploySailTokenFixture);
 
 
-        await sail.connect(dao).setMint(currentTimestamp+fifteenDays, 25_000_000);
+        await sail.connect(dao).setMint(currentTimestamp+fifteenDays, BigInt(25_000_000)*ONE);
 
         expect(await sail.nextMintTime()).to.equal(currentTimestamp+fifteenDays);
-        expect(await sail.nextMintAmount()).to.equal(25_000_000);
+        expect(await sail.nextMintAmount()).to.equal(BigInt(25_000_000)*ONE);
       });
 
     });
@@ -90,7 +94,7 @@ describe("Sail Token Tests", function () {
         const { sail, dao } = await loadFixture(deploySailTokenFixture);
 
 
-        await sail.connect(dao).setMint(currentTimestamp+fifteenDays, 25_000_000);
+        await sail.connect(dao).setMint(currentTimestamp+fifteenDays, BigInt(25_000_000)*ONE);
 
         await expect(sail.executeMint()).to.be.revertedWithCustomError(
           sail,
@@ -102,7 +106,7 @@ describe("Sail Token Tests", function () {
         await sail.executeMint();
 
         expect(await sail.nextMintTime()).to.equal(0);
-        expect(await sail.balanceOf(dao.address)).to.equal(1_025_000_000);
+        expect(await sail.balanceOf(dao.address)).to.equal(BigInt(1_025_000_000)*ONE);
 
         await expect(sail.executeMint()).to.be.revertedWithCustomError(
           sail,
