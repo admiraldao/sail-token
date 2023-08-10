@@ -16,6 +16,7 @@ contract SailToken is ERC20("SAIL Token", "SAIL"), ERC20Permit("SAIL Token"), ER
     uint256 constant INITIAL_TOKEN_SUPPLY = 1e9 ether;
 
     error InvalidMint();
+    event MintSet(uint256 mintTime, uint256 mintAmount);
 
     constructor(address theDAO) {
         _transferOwnership(theDAO);
@@ -31,6 +32,7 @@ contract SailToken is ERC20("SAIL Token", "SAIL"), ERC20Permit("SAIL Token"), ER
         }
         nextMintTime = mintTime;
         nextMintAmount = mintAmount;
+        emit MintSet(mintTime, mintAmount);
     }
 
     function executeMint() external {
