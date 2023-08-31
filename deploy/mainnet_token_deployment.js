@@ -17,4 +17,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   console.log('-------------------------');
 };
 
-module.exports.tags = ['token'];
+module.exports.tags = ['mainnet_token'];
