@@ -4,8 +4,8 @@ module.exports = async ({ getNamedAccounts }) => {
   const { daoAcc, l2StandardBridgeAcc, l1TokenAcc } = await getNamedAccounts();
 
   console.log('-------------------------');
-  console.log('>> l2StandardBridgeAcc: ', daoAcc);
-  console.log('>> l1TokenAcc: ', daoAcc);
+  console.log('>> l2StandardBridgeAcc: ', l2StandardBridgeAcc);
+  console.log('>> l1TokenAcc: ', l1TokenAcc);
   console.log('');
   console.log('-------------------------');
 
