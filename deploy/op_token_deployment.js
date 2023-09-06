@@ -1,7 +1,7 @@
 const { ethers } = require('hardhat');
 
 module.exports = async ({ getNamedAccounts }) => {
-  const { daoAcc, l2StandardBridgeAcc, l1TokenAcc } = await getNamedAccounts();
+  const { l2StandardBridgeAcc, l1TokenAcc } = await getNamedAccounts();
 
   console.log('-------------------------');
   console.log('>> l2StandardBridgeAcc: ', l2StandardBridgeAcc);
