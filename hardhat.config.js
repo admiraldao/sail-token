@@ -20,6 +20,9 @@ module.exports = {
       op_mainnet: '0xd8F1460044925d2D5c723C7054cd9247027415B7',
       op_goerli: '0x769728b5298445BA2828c0f3F5384227fbF590C5',
     },
+    tokenAcc: {
+      mainnet: '0xd8F1460044925d2D5c723C7054cd9247027415B7',
+    }
   },
   networks: {
     localhost: {
