@@ -5,11 +5,13 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-contract VeSail is ERC20("Vested SAIL", "veSAIL"){
+contract veSAIL is ERC20("Vested SAIL", "veSAIL"){
     using SafeMath for uint256;
     IERC20 public sail;
 
     error VaultTokenNontransferable();
+
+    uint256 EXCHANGE_RATE_PRECISION_MULT = 10**9;
 
     constructor(IERC20 _sail){
         sail = _sail;
@@ -39,7 +41,7 @@ contract VeSail is ERC20("Vested SAIL", "veSAIL"){
     }
 
     function getExchangeRate() public view returns (uint256) {
-        return (sail.balanceOf(address(this))) / totalSupply();
+        return (EXCHANGE_RATE_PRECISION_MULT*sail.balanceOf(address(this))) / totalSupply();
     }
 
     function toSAIL(uint256 veSAILAmount) public view returns (uint256 sailAmount) {
