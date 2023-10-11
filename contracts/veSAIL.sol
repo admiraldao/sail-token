@@ -3,13 +3,15 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract VeSail is ERC20("Vested SAIL", "veSAIL"){
     using SafeMath for uint256;
     IERC20 public sail;
 
-    constructor(IERC20 _sail) public {
+    error VaultTokenNontransferable();
+
+    constructor(IERC20 _sail){
         sail = _sail;
     }
 
@@ -46,5 +48,14 @@ contract VeSail is ERC20("Vested SAIL", "veSAIL"){
 
     function toVESAIL(uint256 sailAmount) public view returns (uint256 veSailAmount) {
         veSailAmount = (sailAmount * totalSupply()) / sail.balanceOf(address(this));
+    }
+
+    /* Disable ERC20 Transfer and Approval functionality for vault shares */
+    function _transfer(address from, address to, uint256 amount) internal override {
+        revert VaultTokenNontransferable();
+    }
+
+    function _approve(address owner, address spender, uint256 amount) internal override {
+        revert VaultTokenNontransferable();
     }
 }
